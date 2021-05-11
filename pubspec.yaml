@@ -27,9 +27,8 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  flutter_rating_bar: ^4.0.0
-
+  cupertino_icons:
+  flutter_rating_bar:
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -53,7 +52,6 @@ flutter:
      - assets/images/lord of the rings.jpg
      - assets/images/star wars.jpg
      - assets/images/joker.jpg
-
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
