@@ -94,8 +94,7 @@ class HomePage extends StatelessWidget {
                     height: 300,
                     child: Column(
                       children: [
-                        Text("Popular",
-                        style: TextStyle(color: ethioColor.ethioWhite,fontSize: 18),)
+                        Text("Popular", style: TextStyle(color: ethioColor.ethioWhite,fontSize: 18),)
                       ],
                     ),
                   )
