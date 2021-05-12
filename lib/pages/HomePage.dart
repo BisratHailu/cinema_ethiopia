@@ -2,6 +2,7 @@ import 'package:cinema_ethiopia/model/movie.dart';
 import 'package:cinema_ethiopia/utilities/scrollPhysics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../model/color.dart';
 import '../model/lists.dart';
@@ -17,20 +18,20 @@ class _HomePageState extends State<HomePage> {
 
   ScrollPhysics _physics;
 
-  @override
-  void initState() {
-    super.initState();
-
-    _controller.addListener(() {
-      if (_controller.position.haveDimensions && _physics == null) {
-        setState(() {
-          var dimension = _controller.position.maxScrollExtent /
-              (EthioList.movieList.length - 1);
-          _physics = CustomScrollPhysics(itemDimension: dimension);
-        });
-      }
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //
+  //   _controller.addListener(() {
+  //     if (_controller.position.haveDimensions && _physics == null) {
+  //       setState(() {
+  //         var dimension = _controller.position.maxScrollExtent /
+  //             (EthioList.movieList.length - 1);
+  //         _physics = CustomScrollPhysics(itemDimension: dimension);
+  //       });
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -77,10 +78,10 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildListView( 'Popular',_physics,_controller),
+                  _buildListView('Popular', _physics, _controller),
                   Container(
-                    height: 50,
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    height: 30,
+                    margin: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: EthioList.movieCategory.length,
@@ -103,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
-                  _buildListView('Feature',_physics,_controller)
+                  _buildListView('Feature', _physics, _controller)
                 ],
               ),
             )
@@ -114,10 +115,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildListView(
-      String subTitle,ScrollPhysics physics,ScrollController controller) {
+      String subTitle, ScrollPhysics physics, ScrollController controller) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      height: 300,
+      margin: EdgeInsets.symmetric(horizontal: 20, ),
+      height: 350,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -132,25 +133,64 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              controller: controller,
-              physics: physics,
-              itemCount: EthioList.movieList.length,
-              itemBuilder: (context, index) => Container(
-
-                  height: double.maxFinite,
-                  width: 300,
-                  child: Image.asset(EthioList.movieList[index]['poster']),
-                  ),
-            ),
-            // Container(
-            //   height: 75,
-            //   child: ListTile(
-            //     title: Text( EthioList.movieList[index]['poster']),
-            //   ),
-            // )
-          ),
+              child: ListView.builder(
+                  itemCount: EthioList.movieList.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                        width: 200,
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 15,
+                        ),
+                        child: Column(children: [
+                          Expanded(
+                              child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Image.asset(
+                                EthioList.movieList[index]['poster']),
+                          )),
+                          SizedBox(
+                              height: 50,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    EthioList.movieList[index]['title'],
+                                    style: TextStyle(
+                                        color: ethioColor.ethioWhite,
+                                        fontSize: 18),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        '@' +
+                                            EthioList.movieList[index]
+                                                ['cinema'],
+                                        style: TextStyle(
+                                          color: ethioColor.ethioGrey,
+                                        ),
+                                      ),
+                                      RatingBarIndicator(
+                                        rating: 4,
+                                        itemBuilder: (context, index) => Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                        itemCount: 5,
+                                        itemSize: 15,
+                                        direction: Axis.horizontal,
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ))
+                        ]));
+                  }))
         ],
       ),
     );
