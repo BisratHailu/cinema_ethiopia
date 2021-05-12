@@ -46,11 +46,12 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/images/poster.jpeg
-     - assets/images/poster 1.jpeg
-     - assets/images/poster 2.jpeg
-     - assets/images/poster 3.jpeg
-     - assets/images/poster 4.jpeg
+     - assets/images/alien.jpg
+     - assets/images/avengers.jpg
+     - assets/images/inception.jpg
+     - assets/images/lord of the rings.jpg
+     - assets/images/star wars.jpg
+     - assets/images/joker.jpg
 
 
 
