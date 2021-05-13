@@ -51,11 +51,9 @@ class MovieDetail extends StatelessWidget {
             ),
           ),
           SliverList(
-
             delegate: SliverChildListDelegate(
               [
                 Container(
-
                   height: 300,
                   width: 300,
                   margin: EdgeInsets.symmetric(vertical: 10),
@@ -139,11 +137,35 @@ class MovieDetail extends StatelessWidget {
                     maxLines: 7,
                   ),
                 ),
-
               ],
             ),
-          )
+          ),
         ],
+      ),
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.only(left: 25, bottom: 50, right: 25, top: 10),
+        child: ElevatedButton(
+          style: ButtonStyle(
+            elevation: MaterialStateProperty.all<double>(0.0),
+            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                EdgeInsets.symmetric(vertical: 12)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+                side: BorderSide(color: ethioColor.ethioRed),
+              ),
+            ),
+            backgroundColor:
+                MaterialStateProperty.all<Color>(ethioColor.ethioRed),
+            foregroundColor:
+                MaterialStateProperty.all<Color>(ethioColor.ethioWhite),
+          ),
+          onPressed: () {},
+          child: Text(
+            "Request Ticket",
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
       ),
     ));
   }

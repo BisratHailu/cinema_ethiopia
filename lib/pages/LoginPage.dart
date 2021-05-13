@@ -118,16 +118,16 @@ class Login extends StatelessWidget {
                       ),
                     ),
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(ethioColor.ethioBlack),
+                    MaterialStateProperty.all<Color>(ethioColor.ethioRed),
                     foregroundColor:
-                        MaterialStateProperty.all<Color>(ethioColor.ethioRed),
+                    MaterialStateProperty.all<Color>(ethioColor.ethioWhite),
                   ),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>Home()));
                   },
                   child: Text(
                     "Login",
-                    style: TextStyle(color: ethioColor.ethioRed, fontSize: 20),
+                    style: TextStyle( fontSize: 20),
                   ),
                 ),
               )
