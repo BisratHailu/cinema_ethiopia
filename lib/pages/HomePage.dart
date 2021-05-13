@@ -12,6 +12,7 @@ class Home extends StatelessWidget {
           length: 3,
           child: Scaffold(
               appBar: AppBar(
+                automaticallyImplyLeading: false,
                 backgroundColor: ethioColor.ethioBlack,
                 bottom: TabBar(
                   tabs: [

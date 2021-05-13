@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'pages/HomePage.dart';
+import 'pages/LoginPage.dart';
 
 void main() => runApp(CinemaEthiopia());
 
@@ -16,7 +17,7 @@ class CinemaEthiopia extends StatelessWidget{
      theme: ThemeData(
        fontFamily: 'Baumans'
      ),
-     home: Home(),
+     home: Login(),
    );
   }
 
