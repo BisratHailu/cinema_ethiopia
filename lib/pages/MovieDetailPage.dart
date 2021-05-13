@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -59,7 +61,7 @@ class MovieDetail extends StatelessWidget {
                   height: 300,
                   width: 300,
                   margin: EdgeInsets.symmetric(vertical: 10),
-                  child: Image.asset(poster),
+                  child: Image.memory(base64Decode(poster)),
                 ),
                 Container(
                   alignment: Alignment.center,

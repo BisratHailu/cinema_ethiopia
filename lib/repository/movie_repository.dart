@@ -22,6 +22,7 @@ class MovieRepository {
                   id: json['id'],
                   film_name: json['film_name'],
                   decoded_image: json['decoded_image'],
+                  film_description: json['film_description']
                 );
               }
         ),
