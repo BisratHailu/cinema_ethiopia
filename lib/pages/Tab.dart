@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../model/color.dart';
 import '../model/lists.dart';
 import 'MovieDetailPage.dart';
+import 'CategoryPage.dart';
 
 class HomeTab extends StatelessWidget {
 
@@ -26,20 +27,25 @@ class HomeTab extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: EthioList.movieCategory.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      margin: EdgeInsets.only(right: 15),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      child: Text(
-                        EthioList.movieCategory[index],
-                        style: TextStyle(
-                            color: ethioColor.ethioWhite, fontSize: 16),
+                    return InkWell(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>Category()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 15),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        child: Text(
+                          EthioList.movieCategory[index],
+                          style: TextStyle(
+                              color: ethioColor.ethioWhite, fontSize: 16),
+                        ),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(20)),
+                            border: Border.all(
+                                color: ethioColor.ethioRed, width: 0.5)),
                       ),
-                      decoration: BoxDecoration(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(20)),
-                          border: Border.all(
-                              color: ethioColor.ethioRed, width: 0.5)),
                     );
                   },
                 ),
