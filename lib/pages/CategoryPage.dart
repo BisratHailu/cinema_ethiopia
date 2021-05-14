@@ -10,139 +10,113 @@ class Category extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
-      backgroundColor: ethioColor.ethioBlack,
-      appBar: AppBar(
-
-        backgroundColor: ethioColor.ethioBlack,
-        title: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: 10,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+    return SafeArea(
+      child: Scaffold(
+          backgroundColor: ethioColor.ethioBlack,
+          appBar: AppBar(
+            backgroundColor: ethioColor.ethioBlack,
+            title: Text.rich(TextSpan(
+                text: "Ethio",
+                style: TextStyle(color: ethioColor.ethioRed, fontSize: 25),
                 children: [
-                  Text(
-                    "Ethio ",
-                    style: TextStyle(
-                        color: ethioColor.ethioRed, fontSize: 25),
-                  ),
-                  Text(
-                    "Cinema",
-                    style: TextStyle(
-                        color: ethioColor.ethioWhite, fontSize: 25),
-                  ),
-                ],
-              ),
-            ],
+                  TextSpan(
+                    text: ' Cinema',
+                    style:
+                        TextStyle(color: ethioColor.ethioWhite, fontSize: 25),
+                  )
+                ])),
+
           ),
-        ),
-        actions: [
-          IconButton(
-              icon: Icon(
-                Icons.search_outlined,
-                color: ethioColor.ethioWhite,
-              ),
-              onPressed: () {})
-        ],
-      ),
-      body:  ListView.builder(
-            itemCount: EthioList.movieList.length,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, int index) {
-              return InkWell(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => MovieDetail(
-                        title: EthioList.movieList[index]['title'],
-                        duration: EthioList.movieList[index]
-                        ['duration'],
-                        genre: EthioList.movieList[index]['genre'],
-                        poster: EthioList.movieList[index]
-                        ['poster'],
-                        cinema: EthioList.movieList[index]
-                        ['cinema'],
-                      )));
-                },
-                child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 10,horizontal: 20),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 100,
-
-
-                        child: ClipRRect(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(10)),
-                          child: Image.asset(
-                              EthioList.movieList[index]['poster'],),
+          body: ListView.builder(
+              itemCount: EthioList.movieList.length,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (BuildContext context, int index) {
+                return InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => MovieDetail(
+                              title: EthioList.movieList[index]['title'],
+                              duration: EthioList.movieList[index]['duration'],
+                              genre: EthioList.movieList[index]['genre'],
+                              poster: EthioList.movieList[index]['poster'],
+                              cinema: EthioList.movieList[index]['cinema'],
+                            )));
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 100,
+                          height: 100,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: Image.asset(
+                              EthioList.movieList[index]['poster'],
+                            ),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                          child: Column(
-                            children: [
-                              ListTile(
-                                title: Text(
-                                  EthioList.movieList[index]['title'],
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: ethioColor.ethioWhite,
-                                      fontWeight: FontWeight.w500),
+                        Expanded(
+                            child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                EthioList.movieList[index]['title'],
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: ethioColor.ethioWhite,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              trailing: RatingBarIndicator(
+                                rating: 4,
+                                itemBuilder: (context, index) => Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
                                 ),
-                                trailing: RatingBarIndicator(
-                                  rating: 4,
-                                  itemBuilder: (context, index) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  itemCount: 5,
-                                  itemSize: 15,
-                                  direction: Axis.horizontal,
-                                ),
-                                subtitle: Text(
-                                  '@' + EthioList.movieList[index]['cinema'],
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: ethioColor.ethioGrey,
-                                  ),
+                                itemCount: 5,
+                                itemSize: 15,
+                                direction: Axis.horizontal,
+                              ),
+                              subtitle: Text(
+                                '@' + EthioList.movieList[index]['cinema'],
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: ethioColor.ethioGrey,
                                 ),
                               ),
-                              Padding(
-                                padding:  EdgeInsets.symmetric(horizontal: 15),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      EthioList.movieList[index]['genre'],
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: ethioColor.ethioGrey,
-                                      ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    EthioList.movieList[index]['genre'],
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: ethioColor.ethioGrey,
                                     ),
-                                    Text(
-                                      EthioList.movieList[index]['duration'],
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: ethioColor.ethioGrey,
-                                      ),
+                                  ),
+                                  Text(
+                                    EthioList.movieList[index]['duration'],
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: ethioColor.ethioGrey,
                                     ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ))
-                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ))
+                      ],
+                    ),
                   ),
-                ),
-              );
-            })),
-
+                );
+              })),
     );
   }
 }

@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 import '../model/color.dart';
 import 'HomePage.dart';
 
@@ -28,25 +27,20 @@ class Login extends StatelessWidget {
           child: ListView(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 50),
-                width: double.maxFinite,
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Ethio ",
+                  margin: EdgeInsets.only(top: 50),
+                  width: double.maxFinite,
+                  alignment: Alignment.center,
+                  child: Text.rich(TextSpan(
+                      text: "Ethio",
                       style:
                           TextStyle(color: ethioColor.ethioRed, fontSize: 35),
-                    ),
-                    Text(
-                      "Cinema",
-                      style:
-                          TextStyle(color: ethioColor.ethioWhite, fontSize: 35),
-                    ),
-                  ],
-                ),
-              ),
+                      children: [
+                        TextSpan(
+                          text: ' Cinema',
+                          style: TextStyle(
+                              color: ethioColor.ethioWhite, fontSize: 35),
+                        )
+                      ]))),
               Container(
                 margin: EdgeInsets.only(top: 25),
                 width: 150,
@@ -106,9 +100,7 @@ class Login extends StatelessWidget {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 25, vertical: 50),
                 child: ElevatedButton(
-
                   style: ButtonStyle(
-
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         EdgeInsets.symmetric(vertical: 10)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -118,16 +110,17 @@ class Login extends StatelessWidget {
                       ),
                     ),
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(ethioColor.ethioRed),
+                        MaterialStateProperty.all<Color>(ethioColor.ethioRed),
                     foregroundColor:
-                    MaterialStateProperty.all<Color>(ethioColor.ethioWhite),
+                        MaterialStateProperty.all<Color>(ethioColor.ethioWhite),
                   ),
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>HomePage()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) => HomePage()));
                   },
                   child: Text(
                     "Login",
-                    style: TextStyle( fontSize: 20),
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
               )

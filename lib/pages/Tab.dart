@@ -1,5 +1,8 @@
+import 'package:cinema_ethiopia/cubit/movie_cubit.dart';
+import 'package:cinema_ethiopia/cubit/movie_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../model/color.dart';
@@ -18,7 +21,7 @@ class HomeTab extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildListView('Popular'),
+              _buildPopularListView(),
               Container(
                 height: 30,
                 margin:
@@ -50,7 +53,7 @@ class HomeTab extends StatelessWidget {
                   },
                 ),
               ),
-              _buildListView('Feature'),
+              _buildFeatureListView(),
             ],
           ),
         ),
@@ -134,7 +137,7 @@ class HomeTab extends StatelessWidget {
     );
   }
 
-  Widget _buildListView(String subTitle) {
+  Widget _buildPopularListView() {
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: 20,
@@ -146,28 +149,36 @@ class HomeTab extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(
-              subTitle,
+              'Popular',
               style: TextStyle(
                   color: ethioColor.ethioWhite,
                   fontSize: 20,
                   fontWeight: FontWeight.w600),
             ),
           ),
-          Expanded(
-              child: ListView.builder(
-                  itemCount: EthioList.movieList.length,
+          Expanded(child:
+          BlocBuilder<MoviesCubit, MoviesState>(builder: (context, state) {
+            if (state is LoadingState) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is ErrorState) {
+              return Container(
+                child: Text('error'),
+              );
+            } else if (state is LoadedState) {
+              final movies = state.movies;
+              return ListView.builder(
+                  itemCount: movies.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => MovieDetail(
-                              title: EthioList.movieList[index]['title'],
-                              duration: EthioList.movieList[index]
-                              ['duration'],
-                              genre: EthioList.movieList[index]['genre'],
-                              poster: EthioList.movieList[index]['poster'],
-                              cinema: EthioList.movieList[index]['cinema'],
+                              title: movies[index].film_name,
+                              duration: "2",
+                              genre: movies[index].film_description,
+                              poster: movies[index].decoded_image,
+                              cinema: "gast",
                             )));
                       },
                       child: Container(
@@ -190,7 +201,7 @@ class HomeTab extends StatelessWidget {
                                   MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      EthioList.movieList[index]['title'],
+                                      movies[index].film_name,
                                       style: TextStyle(
                                           color: ethioColor.ethioWhite,
                                           fontSize: 18),
@@ -224,7 +235,119 @@ class HomeTab extends StatelessWidget {
                                 ))
                           ])),
                     );
-                  }))
+                  });
+            } else {
+              return Container();
+            }
+          }))
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFeatureListView() {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
+      height: 350,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child: Text(
+              'Feature',
+              style: TextStyle(
+                  color: ethioColor.ethioWhite,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
+          Expanded(child:
+          BlocBuilder<MoviesCubit, MoviesState>(builder: (context, state) {
+            if (state is LoadingState) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is ErrorState) {
+              return Container(
+                child: Text('error'),
+              );
+            } else if (state is LoadedState) {
+              final movies = state.movies;
+              return ListView.builder(
+                  itemCount: movies.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => MovieDetail(
+                              title: movies[index].film_name,
+                              duration: "2",
+                              genre: movies[index].film_description,
+                              poster: movies[index].decoded_image,
+                              cinema: "gast",
+                            )));
+                      },
+                      child: Container(
+                          width: 200,
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 15,
+                          ),
+                          child: Column(children: [
+                            Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Image.asset(
+                                      EthioList.movieList[index]['poster']),
+                                )),
+                            SizedBox(
+                                height: 50,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      movies[index].film_name,
+                                      style: TextStyle(
+                                          color: ethioColor.ethioWhite,
+                                          fontSize: 18),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '@' +
+                                              EthioList.movieList[index]
+                                              ['cinema'],
+                                          style: TextStyle(
+                                            color: ethioColor.ethioGrey,
+                                          ),
+                                        ),
+                                        RatingBarIndicator(
+                                          rating: 4,
+                                          itemBuilder: (context, index) => Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                          itemCount: 5,
+                                          itemSize: 15,
+                                          direction: Axis.horizontal,
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ))
+                          ])),
+                    );
+                  });
+            } else {
+              return Container();
+            }
+          }))
         ],
       ),
     );

@@ -25,33 +25,18 @@ class MovieDetail extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: ethioColor.ethioBlack,
-            pinned: true,
-            title: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 10,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Ethio ",
-                        style:
-                            TextStyle(color: ethioColor.ethioRed, fontSize: 25),
-                      ),
-                      Text(
-                        "Cinema",
-                        style: TextStyle(
-                            color: ethioColor.ethioWhite, fontSize: 25),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+              backgroundColor: ethioColor.ethioBlack,
+              pinned: true,
+              title: Text.rich(TextSpan(
+                  text: "Ethio",
+                  style: TextStyle(color: ethioColor.ethioRed, fontSize: 25),
+                  children: [
+                    TextSpan(
+                      text: ' Cinema',
+                      style:
+                          TextStyle(color: ethioColor.ethioWhite, fontSize: 25),
+                    )
+                  ]))),
           SliverList(
             delegate: SliverChildListDelegate(
               [

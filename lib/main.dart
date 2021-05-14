@@ -33,7 +33,7 @@ class CinemaEthiopia extends StatelessWidget {
               LoginCubit(repository: LoginRepository(Dio())),)
         ],
         child: MaterialApp(
-          home: HomePage(),
+          home: Login(),
           title: 'Cinema Ethiopia',
           theme: ThemeData(fontFamily: 'Baumans'),
         )
