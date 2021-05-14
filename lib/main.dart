@@ -7,9 +7,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import './pages/HomePage.dart';
+import './pages/LoginPage.dart';
 import 'cubit/movie_cubit.dart';
-import 'pages/Login.dart';
+
 
 void main() =>
     runApp(
@@ -33,7 +33,7 @@ class CinemaEthiopia extends StatelessWidget {
               LoginCubit(repository: LoginRepository(Dio())),)
         ],
         child: MaterialApp(
-          home: Login(),
+          home: LoginPage(),
           title: 'Cinema Ethiopia',
           theme: ThemeData(fontFamily: 'Baumans'),
         )

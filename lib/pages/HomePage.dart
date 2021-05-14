@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/color.dart';
 import 'Tab.dart';
-import 'Login.dart';
+import 'LoginPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Login()));
+                                builder: (context) => LoginPage()));
                           }),
                 ],
               ),
