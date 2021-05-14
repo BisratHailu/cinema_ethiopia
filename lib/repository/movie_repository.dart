@@ -1,4 +1,5 @@
 import 'package:cinema_ethiopia/model/MovieModel.dart';
+import 'package:cinema_ethiopia/model/RequestTicket.dart';
 import 'package:dio/dio.dart';
 
 
@@ -10,10 +11,9 @@ class MovieRepository {
   Future<List<MovieModel>> getMovies() async {
     try {
       final url =
-          'http://10.0.2.2:8000/api/films';
-
+          'http:/10.0.2.2/api/films';
       final response = await client.get(url);
-      // print(response.data);
+      print(response.data);
       final movies = List<MovieModel>.of(
         response.data.map<MovieModel>(
               (json){
@@ -32,5 +32,12 @@ class MovieRepository {
     } catch (e) {
       throw e;
     }
+  }
+
+  requestTicket(ticket) async{
+    final url =
+        'http://10.0.2.2:8000/api/ticket/request';
+    final response = await client.post(url,data:ticket);
+    return response;
   }
 }

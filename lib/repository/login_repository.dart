@@ -57,15 +57,14 @@ class LoginRepository extends ChangeNotifier{
   }
 
    logout() async{
+     SharedPreferences localStorage = await SharedPreferences.getInstance();
 
-    var res = await client.get('/logout');
-    var body = json.decode(res.data);
-    if(body['success']){
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
+    if(localStorage!=null){
+
       localStorage.remove('user');
       localStorage.remove('token');
     }
-    print(body);
+
   }
 
 }

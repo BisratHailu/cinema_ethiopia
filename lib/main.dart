@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import './pages/HomePage.dart';
 import 'cubit/movie_cubit.dart';
-import 'pages/Login.dart';
+
 
 void main() =>
     runApp(

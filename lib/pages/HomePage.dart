@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cinema_ethiopia/cubit/login_cubit.dart';
 import 'package:cinema_ethiopia/cubit/login_state.dart';
 import 'package:cinema_ethiopia/cubit/movie_cubit.dart';
@@ -10,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/color.dart';
 import '../model/lists.dart';
-import 'Login.dart';
+import 'LoginPage.dart';
 import 'MovieDetailPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -71,16 +73,30 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     name != null
-                        ? Text(name)
+                        ? BlocBuilder<LoginCubit, LoginState>(
+                      builder: (context, state) =>
+                          IconButton(
+                              icon: Icon(
+                                Icons.logout,
+                                color: ethioColor.ethioWhite,
+                              ),
+                              onPressed: () {
+                                context.read<LoginCubit>().logout();
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage()));
+                              }
+                          ),
+                    )
                         : IconButton(
-                            icon: Icon(
-                              Icons.east,
-                              color: ethioColor.ethioWhite,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => Login()));
-                            }),
+                        icon: Icon(
+                          Icons.east,
+                          color: ethioColor.ethioWhite,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => LoginPage()));
+                        }),
                   ],
                 ),
               ),
@@ -100,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                         return Container(
                           margin: EdgeInsets.only(right: 15),
                           padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           child: Text(
                             EthioList.movieCategory[index],
                             style: TextStyle(
@@ -108,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
+                              BorderRadius.all(Radius.circular(20)),
                               border: Border.all(
                                   color: ethioColor.ethioRed, width: 0.5)),
                         );
@@ -129,66 +145,71 @@ class _HomePageState extends State<HomePage> {
                   childAspectRatio: 3,
                 ),
                 delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MovieDetail(
-                                title: EthioList.movieList[index]['title'],
-                                duration: EthioList.movieList[index]
+                        (BuildContext context, int index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  MovieDetail(
+                                    title: EthioList.movieList[index]['title'],
+                                    duration: EthioList.movieList[index]
                                     ['duration'],
-                                genre: EthioList.movieList[index]['genre'],
-                                poster: EthioList.movieList[index]['poster'],
-                                cinema: EthioList.movieList[index]['cinema'],
-                              )));
-                    },
-                    child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 100,
-                            child: ClipRRect(
-                              borderRadius:
+                                    genre: EthioList.movieList[index]['genre'],
+                                    poster: EthioList
+                                        .movieList[index]['poster'],
+                                    cinema: EthioList
+                                        .movieList[index]['cinema'],
+                                  )));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 100,
+                                child: ClipRRect(
+                                  borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
-                              child: Image.asset(
-                                  EthioList.movieList[index]['poster']),
-                            ),
+                                  child: Image.asset(
+                                      EthioList.movieList[index]['poster']),
+                                ),
+                              ),
+                              Expanded(
+                                  child: ListTile(
+                                    title: Text(
+                                      EthioList.movieList[index]['title'],
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: ethioColor.ethioWhite,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    trailing: RatingBarIndicator(
+                                      rating: 4,
+                                      itemBuilder: (context, index) =>
+                                          Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                      itemCount: 5,
+                                      itemSize: 15,
+                                      direction: Axis.horizontal,
+                                    ),
+                                    subtitle: Text(
+                                      '@' +
+                                          EthioList.movieList[index]['cinema'],
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: ethioColor.ethioGrey,
+                                      ),
+                                    ),
+                                  ))
+                            ],
                           ),
-                          Expanded(
-                              child: ListTile(
-                            title: Text(
-                              EthioList.movieList[index]['title'],
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: ethioColor.ethioWhite,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            trailing: RatingBarIndicator(
-                              rating: 4,
-                              itemBuilder: (context, index) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              itemCount: 5,
-                              itemSize: 15,
-                              direction: Axis.horizontal,
-                            ),
-                            subtitle: Text(
-                              '@' + EthioList.movieList[index]['cinema'],
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: ethioColor.ethioGrey,
-                              ),
-                            ),
-                          ))
-                        ],
-                      ),
-                    ),
-                  );
-                }, childCount: EthioList.movieList.length),
+                        ),
+                      );
+                    }, childCount: EthioList.movieList.length),
               ),
             )
           ],
@@ -217,7 +238,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Expanded(child:
-              BlocBuilder<MoviesCubit, MoviesState>(builder: (context, state) {
+          BlocBuilder<MoviesCubit, MoviesState>(builder: (context, state) {
             if (state is LoadingState) {
               return Center(child: CircularProgressIndicator());
             } else if (state is ErrorState) {
@@ -233,7 +254,8 @@ class _HomePageState extends State<HomePage> {
                     return InkWell(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => MovieDetail(
+                            builder: (context) =>
+                                MovieDetail(
                                   title: movies[index].film_name,
                                   duration: "2",
                                   genre: movies[index].film_description,
@@ -249,16 +271,15 @@ class _HomePageState extends State<HomePage> {
                           child: Column(children: [
                             Expanded(
                                 child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              child: Image.asset(
-                                  EthioList.movieList[index]['poster']),
-                            )),
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Image.memory(base64Decode(movies[index].decoded_image)),
+                                )),
                             SizedBox(
                                 height: 50,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       movies[index].film_name,
@@ -269,22 +290,23 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           '@' +
                                               EthioList.movieList[index]
-                                                  ['cinema'],
+                                              ['cinema'],
                                           style: TextStyle(
                                             color: ethioColor.ethioGrey,
                                           ),
                                         ),
                                         RatingBarIndicator(
                                           rating: 4,
-                                          itemBuilder: (context, index) => Icon(
-                                            Icons.star,
-                                            color: Colors.amber,
-                                          ),
+                                          itemBuilder: (context, index) =>
+                                              Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                              ),
                                           itemCount: 5,
                                           itemSize: 15,
                                           direction: Axis.horizontal,

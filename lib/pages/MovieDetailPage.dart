@@ -1,11 +1,16 @@
 import 'dart:convert';
 
+import 'package:cinema_ethiopia/cubit/movie_cubit.dart';
+import 'package:cinema_ethiopia/cubit/movie_state.dart';
+import 'package:cinema_ethiopia/model/MovieModel.dart';
+import 'package:cinema_ethiopia/model/RequestTicket.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../model/color.dart';
 import '../model/lists.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MovieDetail extends StatelessWidget {
   final String title;
@@ -146,27 +151,38 @@ class MovieDetail extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         margin: EdgeInsets.only(left: 25, bottom: 50, right: 25, top: 10),
-        child: ElevatedButton(
-          style: ButtonStyle(
-            elevation: MaterialStateProperty.all<double>(0.0),
-            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                EdgeInsets.symmetric(vertical: 12)),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-                side: BorderSide(color: ethioColor.ethioRed),
+        child: BlocBuilder<MoviesCubit,MoviesState>(
+          builder:(context,state){
+
+          if(state is LoadingState){
+            return CircularProgressIndicator();
+          }if(state is LoadedState){
+            return Text('Ticet requested');
+          }
+          return ElevatedButton(
+            style: ButtonStyle(
+              elevation: MaterialStateProperty.all<double>(0.0),
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                  EdgeInsets.symmetric(vertical: 12)),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                  side: BorderSide(color: ethioColor.ethioRed),
+                ),
               ),
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(ethioColor.ethioRed),
+              foregroundColor:
+                  MaterialStateProperty.all<Color>(ethioColor.ethioWhite),
             ),
-            backgroundColor:
-                MaterialStateProperty.all<Color>(ethioColor.ethioRed),
-            foregroundColor:
-                MaterialStateProperty.all<Color>(ethioColor.ethioWhite),
-          ),
-          onPressed: () {},
-          child: Text(
-            "Request Ticket",
-            style: TextStyle(fontSize: 20),
-          ),
+            onPressed: () {
+              context.read<MoviesCubit>().requestTicket(RequestTicket(film_id: 1,posted_by: 1,status: 'Pending',status_color: 'green',user_name: 'titus'));
+            },
+            child: Text(
+              "Request Ticket",
+              style: TextStyle(fontSize: 20),
+            ),
+          );},
         ),
       ),
     ));
