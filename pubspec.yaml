@@ -33,6 +33,7 @@ dependencies:
   flutter_bloc:
   equatable:
   shared_preferences:
+  http:
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -54,6 +55,7 @@ flutter:
      - assets/images/avengers.jpg
      - assets/images/inception.jpg
      - assets/images/lord of the rings.jpg
+
 
 
 

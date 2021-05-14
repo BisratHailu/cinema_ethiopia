@@ -10,7 +10,7 @@ class MovieRepository {
   Future<List<MovieModel>> getMovies() async {
     try {
       final url =
-          'http://192.168.1.7/Laravel/Laravel API/public/api/films';
+          'http://10.0.2.2:8000/api/films';
 
       final response = await client.get(url);
       // print(response.data);

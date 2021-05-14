@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cinema_ethiopia/cubit/login_cubit.dart';
 import 'package:cinema_ethiopia/repository/login_repository.dart';
 import 'package:cinema_ethiopia/repository/movie_repository.dart';
@@ -9,9 +11,9 @@ import './pages/HomePage.dart';
 import 'cubit/movie_cubit.dart';
 import 'pages/Login.dart';
 
-void main() => runApp(
-
-    CinemaEthiopia());
+void main() =>
+    runApp(
+        CinemaEthiopia());
 
 class CinemaEthiopia extends StatelessWidget {
   @override
@@ -19,17 +21,19 @@ class CinemaEthiopia extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider<MoviesCubit>(
-            create: (context) => MoviesCubit(
-              repository: MovieRepository(
-                Dio(),
-              ),
-            ),
+            create: (context) =>
+                MoviesCubit(
+                  repository: MovieRepository(
+                    Dio(),
+                  ),
+                ),
 
           ),
-          BlocProvider<LoginCubit>(create: (context) => LoginCubit(repository:LoginRepository(Dio())),)
+          BlocProvider<LoginCubit>(create: (context) =>
+              LoginCubit(repository: LoginRepository(Dio())),)
         ],
         child: MaterialApp(
-          home: Home(),
+          home: HomePage(),
           title: 'Cinema Ethiopia',
           theme: ThemeData(fontFamily: 'Baumans'),
         )

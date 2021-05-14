@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:cinema_ethiopia/model/UserModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http/http.dart' as http;
 class LoginRepository extends ChangeNotifier{
   final Dio client;
 
@@ -10,35 +12,35 @@ class LoginRepository extends ChangeNotifier{
   bool isLoading =false;
 
 
-  final String _url = 'http://192.168.1.7/Laravel/Laravel API/public/api';
+  final String _url = 'http://10.0.2.2:8000/api';
   //if you are using android studio emulator, change localhost to 10.0.2.2
   var token;
 
   _getToken() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     token = jsonDecode(localStorage.getString('token'))['token'];
-    print("token $token");
+
   }
 
-  authData(data, apiUrl) async {
+  authData( data, apiUrl) async {
 
-print("token $token");
+  print("token $token");
     var fullUrl = _url + apiUrl;
-   client.options.headers["Authorization"] = "Bearer ${token}";
+   // client.options.headers["Authorization"] = "Bearer ${token}";
     try {
       var result = await client.post(
           fullUrl,
-          data: jsonEncode(data)
+          data: data
       );
-      if(result.data['success'] !=null ){
-
+     var res = json.decode(result.data);
+      if(res['success'] !=null ){
+      print(res['success']['token']);
         SharedPreferences localStorage = await SharedPreferences.getInstance();
-        localStorage.setString('token', json.encode(result.data['success']['token']));
-        localStorage.setString('user', json.encode(result.data['success']['user']));
+        localStorage.setString('token', res['success']['token']);
+        localStorage.setString('user',  res['success']['user']);
 
-        return result;
       }
-
+      return result;
     }catch(e){
       print(e);
     }
@@ -48,12 +50,22 @@ print("token $token");
   getData(apiUrl) async {
     var fullUrl = _url + apiUrl;
     await _getToken();
-    client.options.headers["Authorization"] = "Bearer ${token}";
-    return await client.get(
-        fullUrl,
-    );
+    // client.options.headers["Authorization"] = "Bearer ${token}";
+    // return await client.get(
+    //     fullUrl,
+    // );
   }
 
+   logout() async{
 
+    var res = await client.get('/logout');
+    var body = json.decode(res.data);
+    if(body['success']){
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('user');
+      localStorage.remove('token');
+    }
+    print(body);
+  }
 
 }

@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:cinema_ethiopia/cubit/login_cubit.dart';
 import 'package:cinema_ethiopia/cubit/login_state.dart';
+import 'package:cinema_ethiopia/model/UserModel.dart';
+import 'package:cinema_ethiopia/pages/HomePage.dart';
 import 'package:cinema_ethiopia/repository/login_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +17,12 @@ class Login extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<LoginCubit, LoginState>(
         builder: (context, state) {
-          if (state is LoadingState) {
+          if (state is LoggingInState) {
             return CircularProgressIndicator();
           }
-          else if(state is LoadedState){
-           return Homee();
+          else if(state is LoggedInState){
+
+           return HomePage();
           }else {
 
             return LoginForm(context);
@@ -35,78 +38,9 @@ Widget LoginForm(BuildContext context) {
     child: Text('Login'),
     onPressed: () async {
       print("hello");
-      var data = {
-        'email': 'tito@gmail.com',
-        'password': '123titus',
-      };
-       context.read<LoginCubit>().login(data, '/login');
+      var user = UserModel(email: 'tito@gmail.com',password: '123titus');
+       context.read<LoginCubit>().login(user, '/login');
 
     },
   );
-}
-
-class Homee extends StatefulWidget {
-  @override
-  _HomeeState createState() => _HomeeState();
-}
-
-class _HomeeState extends State<Homee> {
-  String name;
-
-  @override
-  void initState() {
-    _loadUserData();
-    super.initState();
-  }
-
-  _loadUserData() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = jsonDecode(localStorage.getString('user'));
-
-    if (user != null) {
-      print(user);
-      setState(() {
-        name = user['fname'];
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Test App'),
-        backgroundColor: Colors.teal,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Hi, $name',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Center(
-              child: BlocBuilder<LoginCubit, LoginState>(
-                builder: (context, state) {
-                  return RaisedButton(
-                    elevation: 10,
-                    onPressed: () {
-                      context.read<LoginCubit>().logout();
-
-                    },
-                    color: Colors.teal,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: Text('Logout'),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
